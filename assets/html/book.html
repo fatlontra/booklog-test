@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Log - Manage Books</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="../icons/book-icon.png" alt="Book Log Icon"> <!-- Placeholder icon -->
+                <span>Book Log</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Logout</a></li> <!-- Placeholder for logout -->
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="content-card">
+            <section class="list-container">
+                <h1>Your Books</h1>
+                <form id="add-book-form">
+                    <div class="form-group">
+                        <label for="book-name">Book Name</label>
+                        <input type="text" id="book-name" name="book-name" required aria-describedby="book-error">
+                        <span id="book-error" class="error-message"></span>
+                    </div>
+                    <button type="submit" class="btn">Add Book</button>
+                </form>
+                <ul id="book-list" role="listbox">
+                    <!-- Book items will be added here via JS -->
+                    <li class="book-item" tabindex="0">
+                        <span>Sample Book - Sci-Fi - Author - 300 pages - 4/5</span>
+                        <button class="btn-small">Edit</button>
+                        <button class="btn-small">Delete</button>
+                    </li>
+                </ul>
+            </section>
+        </div>
+
+        <div id="chatbot-container">
+            <div id="chat-history"></div>
+            <input type="text" id="chat-input">
+            <button id="send-btn">Send</button>
+        </div>
+    </main>
+    <script src="../js/book.js"></script>
+    <script src="../js/firebase.js"></script>
+</body>
+</html>

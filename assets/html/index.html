@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Log - Welcome</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="../icons/book-icon.png" alt="Book Log Icon"> <!-- Placeholder icon -->
+                <span>Book Log</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#">Menu</a></li> <!-- Placeholder for future navigation -->
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="content-card">
+            <section class="intro">
+                <h1>About Book Log</h1>
+                <p>Welcome to Book Log! This app helps you track, rate, and organize your books effortlessly. Whether you’re into Sci-Fi, Fantasy, or Horror, add your favorites, edit details, or remove them anytime. Your reading journey stays organized and accessible—perfect for book lovers!</p>
+                <h2>Key Features</h2>
+                <ul>
+                    <li>Add and manage books seamlessly.</li>
+                    <li>Secure biometric login (coming soon).</li>
+                    <li>Edit or delete books easily.</li>
+                    <li>AI chatbot assistance (coming soon).</li>
+                </ul>
+            </section>
+            <section class="login-container">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required aria-describedby="email-error">
+                        <span id="email-error" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required aria-describedby="password-error">
+                        <span id="password-error" class="error-message"></span>
+                    </div>
+                    <button type="submit" class="btn">Login</button>
+                    <button type="button" class="btn" id="register-btn">Register</button>
+                </form>
+            </section>
+        </div>
+    </main>
+    <script src="../js/login.js"></script>
+</body>
+</html>
