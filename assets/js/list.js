@@ -104,7 +104,7 @@ class BookList {
     }
 
     async deleteBook(id) {
-        await deletebook(id);
+        await deleteBook(id);
         await this.fetchBooks(); // Refresh
     }
 
