@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookLog - My Books</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>📖 BookLog</h1>
+        <button id="add-book" class="btn primary">+ Add Book</button>
+    </header>
+    <main>
+        <div class="controls">
+            <select id="sort-genre" class="sort-select">
+                <option value="">Sort by Genre</option>
+            </select>
+            <select id="sort-author" class="sort-select">
+                <option value="">Sort by Author</option>
+            </select>
+        </div>
+        <div id="book-list" class="book-grid"></div>
+    </main>
+    <div id="book-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title">Add New Book</h2>
+            <form id="book-form">
+                <div class="form-group">
+                    <input type="text" id="name" placeholder="Book Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="author" placeholder="Author" required>
+                </div>
+                <div class="form-group">
+                    <select id="genre" required>
+                        <option value="">Select Genre</option>
+                        <option value="sci-fi">Sci-Fi</option>
+                        <option value="fantasy">Fantasy</option>
+                        <option value="erotic">Erotic</option>
+                        <option value="horror">Horror</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="number" id="pages" placeholder="Pages" required>
+                </div>
+                <div class="form-group">
+                    <div class="rating-stars" id="rating"></div>
+                </div>
+                <button type="submit" class="btn primary">Save Book</button>
+            </form>
+        </div>
+    </div>
+    <script src="../js/book.js"></script>
+    <script src="../js/list.js"></script>
+</body>
+</html>
