@@ -1,39 +1,70 @@
+import { db } from './firebase.js';
+import { collection, addDoc, updateDoc, deleteDoc, getDocs, query, where } from "firebase/firestore";
+
 class Book {
-    constructor(name, genre, author, pages, category, rate = 0) {
+    constructor(name, genre, author, pages, rate = 0, id = null) {
         this.name = name;
-        this.genre = genre;
+        this.genre = genre; // Sci-Fi, Fantasy, Erotic, Horror
         this.author = author;
-        this.pages = pages;
-        this.category = category; // Sci-Fi, Fantasy, Erotic, Horror
+        this.pages = pages; 
         this.rate = rate; // 1-5
-        this.id = Date.now().toString();
+        this.id = id;
+    }
+}
+/* Adding CRUD functionalities responding to Firestore */
+async function addBook(book) {
+    try {
+        const docRef = await addDoc (collection(db, 'books'), {
+            name: book.name,
+            genre: book.genre,
+            author: book.author,
+            pages: book.pages,
+            rate: book.rate
+        });
+        return {...book, id: docRef.id};    
+    } catch (error) {
+        console.error('Error adding book:', error);
+        throw error;
     }
 }
 
-function addBook(book) {
-    const books = JSON.parse(localStorage.getItem('books')) || [];
-    books.push(book);
-    localStorage.setItem('books', JSON.stringify(books));
-}
-
-function editBook(id, updatedBook) {
-    const books = JSON.parse(localStorage.getItem('books')) || [];
-    const index = books.findIndex(b => b.id === id);
-    if (index !== -1) {
-        books[index] = { ...updatedBook, id };
-        localStorage.setItem('books', JSON.stringify(books));
+async function editBook(id, updatedBook) {
+    try {
+        const bookRef = doc(db, 'books', id);
+        await updateDoc(bookRef, {
+            name: updatedBook.name,
+            genre: updatedBook.genre,
+            author: updatedBook.author,
+            pages: updatedBook.pages,
+            rate: updatedBook.rate
+        });
+    } catch (error) {
+        console.error('Error editing book:', error);
+        throw error;
     }
 }
 
-function deleteBook(id) {
-    const books = JSON.parse(localStorage.getItem('books')) || [];
-    const updatedBooks = books.filter(b => b.id !== id);
-    localStorage.setItem('books', JSON.stringify(updatedBooks));
+async function deleteBook(id) {
+    try {
+        await deleteDoc(doc(db, 'books', id));
+    } catch (error) {
+        console.error('Error deleting book:', error);
+        throw error;
+    }
 }
 
-function filterBooks(by, value) {
-    const books = JSON.parse(localStorage.getItem('books')) || [];
-    return books.filter(book => book[by].toLowerCase() === value.toLowerCase());
+async function filterBooks(by, value) {
+    try {
+        const booksQuery = query(collection(db, 'books'), where(by, '==', value.toLowerCase()));
+        const querySnapShot = await getDocs(booksQuery);
+        return querySnapShot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
+    } catch (error) {
+        console.error('Error filtering books:', error);
+        throw error;
+    }
 }
 
 export { Book, addBook, editBook, deleteBook, filterBooks };

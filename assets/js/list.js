@@ -1,44 +1,58 @@
 import { Book, addBook, editBook, deleteBook, filterBooks } from './book.js';
+import { db } from './firebase.js';
+import { collection, getDocs } from "firebase/firestore";
 
 class BookList {
-    constructor() {
-        this.books = JSON.parse(localStorage.getItem('books')) || [];
-        this.currentEditId = null;
-        this.initEventListeners();
-        this.renderBooks();
+  constructor() {
+    this.books = [];
+    this.currentEditId = null;
+    this.initEventListeners();
+    this.fetchBooks(); // Fetch books from Firestore on initialization
+  }
+
+  async fetchBooks() {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'books'));
+      this.books = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      this.renderBooks();
+    } catch (error) {
+      console.error('Error fetching books:', error);
     }
+  }
 
     initEventListeners() {
-        document.getElementById('add-book').addEventListener('click', () => this.showModal());
-        document.querySelector('.close').addEventListener('click', () => this.hideModal());
-        document.getElementById('book-form').addEventListener('submit', (e) => this.handleSubmit(e));
-        document.getElementById('sort-genre').addEventListener('change', (e) => this.filter('genre', e.target.value));
-        document.getElementById('sort-author').addEventListener('change', (e) => this.filter('author', e.target.value));
+      document.getElementById('add-book').addEventListener('click', () => this.showModal());
+      document.querySelector('.close').addEventListener('click', () => this.hideModal());
+      document.getElementById('book-form').addEventListener('submit', (e) => this.handleSubmit(e));
+      document.getElementById('sort-genre').addEventListener('change', (e) => this.filter('genre', e.target.value));
+      document.getElementById('sort-author').addEventListener('change', (e) => this.filter('author', e.target.value));
     }
 
     renderBooks(books = this.books) {
         const container = document.getElementById('book-list');
         container.innerHTML = '';
         books.forEach(book => {
-            const card = document.createElement('div');
-            card.className = 'book-card';
-            card.innerHTML = `
-                <h3>${book.name}</h3>
-                <p>Author: ${book.author}</p>
-                <p>Genre: ${book.genre}</p>
-                <p>Pages: ${book.pages}</p>
-                <p>Category: ${book.category}</p>
-                <div class="rating">${this.createRatingStars(book.rate)}</div>
-                <div class="actions">
-                    <button class="btn primary edit" data-id="${book.id}">Edit</button>
-                    <button class="btn delete" data-id="${book.id}">Delete</button>
-                </div>
-            `;
-            card.querySelector('.edit').addEventListener('click', (e) => this.editBook(e.target.dataset.id));
-            card.querySelector('.delete').addEventListener('click', (e) => this.deleteBook(e.target.dataset.id));
-            container.appendChild(card);
+          const card = document.createElement('div');
+          card.className = 'book-card';
+          card.innerHTML = `
+            <h3>${book.name}</h3>
+            <p>Author: ${book.author}</p>
+            <p>Genre: ${book.genre}</p>
+            <p>Pages: ${book.pages}</p>
+            <div class="rating">${this.createRatingStars(book.rate)}</div>
+            <div class="actions">
+              <button class="btn primary edit" data-id="${book.id}">Edit</button>
+              <button class="btn delete" data-id="${book.id}">Delete</button>
+            </div>
+          `;
+          card.querySelector('.edit').addEventListener('click', (e) => this.editBook(e.target.dataset.id));
+          card.querySelector('.delete').addEventListener('click', (e) => this.deleteBook(e.target.dataset.id));
+          container.appendChild(card);
         });
-    }
+      }
 
     createRatingStars(rate) {
         return [...Array(5)].map((_, i) => 
@@ -66,43 +80,41 @@ class BookList {
         document.getElementById('book-form').reset();
     }
 
-    handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
         const book = new Book(
-            document.getElementById('name').value,
-            document.getElementById('genre').value,
-            document.getElementById('author').value,
-            document.getElementById('pages').value,
-            document.getElementById('genre').value, // Using genre as category for now
-            document.querySelector('.star.active')?.dataset.value || 0
+          document.getElementById('name').value,
+          document.getElementById('genre').value,
+          document.getElementById('author').value,
+          document.getElementById('pages').value,
+          document.querySelector('.star.active')?.dataset.value || 0
         );
         if (this.currentEditId) {
-            editBook(this.currentEditId, book);
+          await editBook(this.currentEditId, book);
         } else {
-            addBook(book);
+          await addBook(book);
         }
-        this.books = JSON.parse(localStorage.getItem('books')) || [];
-        this.renderBooks();
+        await this.fetchBooks();
         this.hideModal();
     }
 
-    editBook(id) {
+    async editBook(id) {
         const book = this.books.find(b => b.id === id);
         this.showModal(book);
     }
 
-    deleteBook(id) {
-        deleteBook(id);
-        this.books = JSON.parse(localStorage.getItem('books')) || [];
-        this.renderBooks();
+    async deleteBook(id) {
+        await deletebook(id);
+        await this.fetchBooks(); // Refresh
     }
 
-    filter(by, value) {
+    async filter(by, value) {
         if (value) {
-            this.renderBooks(filterBooks(by, value));
+            this.books = await filterBooks(by, value);
         } else {
-            this.renderBooks();
+            await this.fetchBooks(); // Fetch all if no filter
         }
+        this.renderBooks();
     }
 }
 
