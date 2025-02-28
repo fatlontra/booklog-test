@@ -1,9 +1,9 @@
 // Firebase initialization will go here
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, query, where } from "firebase/firestore";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-analytics.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, query, where } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -26,16 +26,16 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 export const registerUser = (email, password) => {
-    return createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        console.log("User registered:", userCredential.user);
-        return userCredential;
-      })
-      .catch((error) => {
-        console.error("Registration error:", error.code, error.message);
-        throw error;
-      });
-  };
+  return createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      console.log("User registered:", userCredential.user);
+      return userCredential;
+    })
+    .catch((error) => {
+      console.error("Registration error:", error.code, error.message);
+      throw error;
+    });
+};
 
 export const loginUser = (email, password) => {
   return signInWithEmailAndPassword(auth, email, password)
@@ -52,45 +52,45 @@ export const loginUser = (email, password) => {
 /* Testing Book management functions. Could be applied or not */
 // 
 // export const addBook = async (book) => {
-    // try {
-      // const docRef = await addDoc(collection(db, "books"), book);
-      // console.log("Book added with ID:", docRef.id);
-      // return { id: docRef.id, ...book };
-    // } catch (e) {
-      // console.error("Error adding book:", e);
-      // throw e;
-    // }
-  // };
-  // 
-  // export const getBooks = async () => {
-    // const querySnapshot = await getDocs(collection(db, "books"));
-    // return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-  // };
-  // 
-  // export const updateBook = async (id, updatedBook) => {
-    // const bookRef = doc(db, "books", id);
-    // try {
-      // await updateDoc(bookRef, updatedBook);
-      // console.log("Book updated with ID:", id);
-    // } catch (e) {
-      // console.error("Error updating book:", e);
-      // throw e;
-    // }
-  // };
-  // 
-  // export const deleteBook = async (id) => {
-    // const bookRef = doc(db, "books", id);
-    // try {
-      // await deleteDoc(bookRef);
-      // console.log("Book deleted with ID:", id);
-    // } catch (e) {
-      // console.error("Error deleting book:", e);
-      // throw e;
-    // }
-  // };
-  // 
-  // export const filterBooks = async (field, value) => {
-    // const q = query(collection(db, "books"), where(field, "==", value));
-    // const querySnapshot = await getDocs(q);
-    // return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-  // };
+// try {
+// const docRef = await addDoc(collection(db, "books"), book);
+// console.log("Book added with ID:", docRef.id);
+// return { id: docRef.id, ...book };
+// } catch (e) {
+// console.error("Error adding book:", e);
+// throw e;
+// }
+// };
+//
+// export const getBooks = async () => {
+// const querySnapshot = await getDocs(collection(db, "books"));
+// return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+// };
+//
+// export const updateBook = async (id, updatedBook) => {
+// const bookRef = doc(db, "books", id);
+// try {
+// await updateDoc(bookRef, updatedBook);
+// console.log("Book updated with ID:", id);
+// } catch (e) {
+// console.error("Error updating book:", e);
+// throw e;
+// }
+// };
+//
+// export const deleteBook = async (id) => {
+// const bookRef = doc(db, "books", id);
+// try {
+// await deleteDoc(bookRef);
+// console.log("Book deleted with ID:", id);
+// } catch (e) {
+// console.error("Error deleting book:", e);
+// throw e;
+// }
+// };
+//
+// export const filterBooks = async (field, value) => {
+// const q = query(collection(db, "books"), where(field, "==", value));
+// const querySnapshot = await getDocs(q);
+// return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+// };
