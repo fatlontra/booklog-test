@@ -21,7 +21,7 @@ document.getElementById('login-form')?.addEventListener('submit', async (e) => {
 
   try {
     await loginUser(email, password);
-    window.location.href = 'book.html';
+    window.location.href = './assets/html/book.html';
   } catch (error) {
     alert(`Login failed: ${error.message}`);
   }

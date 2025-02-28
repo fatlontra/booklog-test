@@ -1,13 +1,21 @@
 import { Book, addBook, editBook, deleteBook, filterBooks } from './book.js';
 import { db } from './firebase.js';
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
 
 class BookList {
   constructor() {
     this.books = [];
     this.currentEditId = null;
     this.initEventListeners();
-    this.fetchBooks(); // Fetch books from Firestore on initialization
+    onAuthStateChanged(auth, (user) => {
+      if (user){
+        this.fetchBooks(); // Fetch books from Firestore when user is signed in
+      } else {
+        window.location.href = '../../index.html'; // Redirect to login page if not signed in
+      }
+    })
+    
   }
 
   async fetchBooks() {
