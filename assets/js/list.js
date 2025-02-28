@@ -1,5 +1,5 @@
 import { Book, addBook, editBook, deleteBook, filterBooks } from './book.js';
-import { db } from './firebase.js';
+import { db, auth } from './firebase.js';
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
 

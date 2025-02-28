@@ -1,6 +1,6 @@
 import { db, auth } from './firebase.js';
 import { collection, addDoc, updateDoc, deleteDoc, getDocs, query, where, doc } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-firestore.js";
-import { ChatGroq } from "@langchain/groq";
+
 
 class Book {
     constructor(name, genre, author, pages, rate = 0, id = null) {
@@ -13,10 +13,6 @@ class Book {
     }
 }
 
-const llm = new ChatGroq({
-    model: "deepseek-r1-distill-llama-70b",
-    temperature: 0
-  });
 /* Adding CRUD functionalities responding to Firestore */
 async function addBook(book) {
     if (!auth.currentUser) { // Checking if the user is authenticated
