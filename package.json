@@ -1,8 +1,12 @@
 {
   "dependencies": {
+    "@langchain/core": "^0.3.41",
+    "@langchain/langgraph": "^0.2.49",
     "firebase": "^11.3.1",
     "firebase-admin": "^13.1.0",
     "gh-pages": "^6.3.0",
-    "parcel": "^2.13.3"
+    "langchain": "^0.3.19",
+    "parcel": "^2.13.3",
+    "uuid": "^11.1.0"
   }
 }

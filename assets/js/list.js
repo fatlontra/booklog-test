@@ -12,7 +12,7 @@ class BookList {
       if (user){
         this.fetchBooks(); // Fetch books from Firestore when user is signed in
       } else {
-        window.location.href = '../../index.html'; // Redirect to login page if not signed in
+        window.location.href = '../../index.html'; // Redirect to login page if not signed
       }
     })
     
